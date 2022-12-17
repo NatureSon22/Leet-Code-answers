@@ -1,0 +1,218 @@
+// 1. Two Sum
+class Solution {
+    public int[] twoSum(int[] list, int target) {
+        int[] num = new int[2];
+        end:
+        for (int x = 1; x <list.length; x++) {
+            int key = list[x]; 
+            int y = x - 1;  
+         
+            while (y >= 0) {
+                if (key + list[y] == target) {
+                    return new int[] {y, x};
+                }
+                y--;
+            }
+         }
+              
+        return new int[] {-1, -1};      
+    }
+}
+
+// 2. Reverse Integer
+class Solution {
+    public static int reverse(int x) {
+        int sign = x < 0 ? -1 : 1;
+        x = (int) Math.abs(x); 
+        int reverse = 0;
+        int length = String.valueOf(x).length() - 1;
+
+        while (x > 0) {
+            reverse += x % 10 * Math.pow(10, length);
+            x /= 10;
+            length--;
+        }
+
+        if (reverse <= -2147483644 || reverse > Integer.MAX_VALUE - 1){
+            return 0;
+        }
+
+        return reverse * sign;
+    }
+}
+
+// 3. Palindrome
+class Solution {
+    boolean result = true;
+    String userInput;
+    
+   
+    public boolean isPalindrome(int input) {
+        userInput = Integer.toString(input); 
+        
+        int[] list = new int[userInput.length()];
+        int[] revList = new int[userInput.length()];
+
+        for (int x = 0; x < userInput.length() ; x++) {
+            list[x] = (int) (userInput.charAt(x) - 48);
+        }
+    
+        for (int y = 0; y < userInput.length(); y++) {
+            revList[y] = (int) (userInput.charAt(userInput.length() - 1 - y) - 48);
+        }
+        
+        for (int z = 0; z < userInput.length(); z++) {
+            if (list[z] != revList[z]) {
+                result = false;
+                break;
+            }
+        }
+        return result;                
+    }
+}
+
+// 4. Roman to Integer
+class Solution {
+    public int romanToInt(String s) {
+        int[] roman = new int[s.length()];
+        int sum = 0;
+
+        for (int x = 0; x < roman.length; x++) {
+            char let = s.charAt(x);
+            roman[x] = switch(let) {
+                case 'I' -> 1;
+                case 'V' -> 5;
+                case 'X' -> 10;
+                case 'L' -> 50;
+                case 'C' -> 100;
+                case 'D' -> 500;
+                case 'M' -> 1000;
+                default -> 0;
+            };
+        } 
+        for (int x = 0; x < roman.length - 1; x++) {
+            if (roman[x] < roman[x + 1]) {
+                sum -= roman[x];
+            } else sum += roman[x];
+        }
+        return sum + roman[roman.length - 1];
+    }
+}
+
+// 5. Longest Common Prefix 
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        if (strs.length == 0) {
+            return "";
+        }
+        
+        String prefix = strs[0];
+        
+        for (int x = 0; x < strs.length; x++) {
+            while (strs[x].indexOf(prefix) != 0) {
+                prefix = prefix.substring(0, prefix.length() - 1);
+            }
+        }
+        
+        return prefix;
+    }
+}
+
+// 6. Valid Parentheses
+class Solution {
+    public boolean isValid(String s) {
+       Stack<Character> symbols = new  Stack<Character>(); 
+       
+       for (char m : s.toCharArray()) {
+           if (m == '(') {
+               symbols.push(')');
+           } else if (m == '{') {
+               symbols.push('}');
+           } else if (m == '[') {
+               symbols.push(']');
+           } else if (symbols.isEmpty() || symbols.pop() != m) {
+               return false;
+           }
+       }
+       return symbols.isEmpty();
+    }
+}
+
+// 7. Remove Duplicate Elements
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int unique = 0;
+        
+        for (int x = 0; x < nums.length; x++) {
+            if (unique == 0 || nums[x] != nums[x - 1]) {
+                nums[unique] = nums[x];
+                unique++;
+            }
+        }
+        return unique;
+    }
+}
+
+// 8.  Find the Index of the First Occurrence in a String
+class Solution {
+    public int strStr(String haystack, String needle) {
+        if (haystack.contains(needle)) {
+            return haystack.indexOf(needle); 
+        }
+        return -1;                            
+    }
+}
+
+// 9. Search Insert Position
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+        int index = 0;
+        for (int element : nums) {
+            if (element == target) {
+                return index;
+            }
+            index++;
+        }
+        
+        if (nums[nums.length - 1] == 1 && target < nums[nums.length - 1]) {
+            return 0;
+        }
+        
+        for (int y = 0; y < nums.length - 1; y++) {
+            if (target > nums[y] && target < nums[y + 1]) {
+                index = y + 1;
+                break;
+            } else 
+                if (target < nums[y] || target < nums[y + 1]) {
+                    index = y;
+                    break;                  
+                }
+        }
+        
+        return index;  
+    }
+}
+
+// 10. Reverse Words in a String
+class Solution {
+    public String reverseWords(String s) {
+        String[] m = s.split(" ");
+        String rev = "";
+        int left = 0;
+        int right = m.length - 1;
+        
+        while (left <= right) {
+            String hold = m[left];
+            m[left++] = m[right];
+            m[right--] = hold;
+        }
+
+        for (String word : m) {
+            if (word.equals("")) {
+                continue; 
+            }
+            rev += word + " ";
+        }
+        return rev.trim();
+    }
+}
